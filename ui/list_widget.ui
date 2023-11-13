@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
+  <property name="tabletTracking">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+   <widget class="QLabel" name="under_list">
+    <property name="geometry">
+     <rect>
+      <x>701</x>
+      <y>160</y>
+      <width>81</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="tabletTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+/* подложка */
+
+position: absolute;
+width: 308px;
+height: 73.5px;
+left: 716px;
+top: 454px;
+
+background: #A0A0A0;
+border-radius: 25px;
+
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="list">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>170</y>
+      <width>71</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="tabletTracking">
+     <bool>false</bool>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QListWidget{
+border: 1px solid;
+border-color: rgba(255, 255, 255, 0);
+border-radius: 100px;
+background-color: rgba(255, 255, 255, 0);
+}
+QListWidget::item{
+background-color: rgba(255, 255, 255, 0);
+}
+
+QListWidget::item::hover{
+background-color: rgba(255, 255, 255, 0);
+outline: 0px;
+
+
+}
+QListWidget::item::selected{
+outline: 0px;
+
+}
+QScrollBar:vertical {
+	
+	background-color: rgba(255, 255, 255, 0);
+	border: none;
+    width:8 px;
+    margin: 15px 0px 15px 0;
+	border-radius: 0px;
+ }
+
+/*  HANDLE BAR VERTICAL */
+QScrollBar::handle:vertical {
+
+	background-color: rgb(255, 255, 255);
+	min-height: 30px;
+	border-radius: 7px;
+}
+QScrollBar::handle:vertical:hover{	
+	background-color: rgb(198, 198, 198);
+}
+QScrollBar::handle:vertical:pressed {	
+	background-color: rgb(138, 138, 138);
+}
+
+/* BTN TOP - SCROLLBAR */
+QScrollBar::sub-line:vertical {
+	background-color: rgb(95, 95, 95);
+	height: 15px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+QScrollBar::sub-line:vertical:hover {	
+	background-color: rgb(198, 198, 198);
+}
+QScrollBar::sub-line:vertical:pressed {	
+	background-color: rgb(138, 138, 138);
+}
+
+/* BTN BOTTOM - SCROLLBAR */
+QScrollBar::add-line:vertical {
+	background-color:  rgb(95, 95, 95);
+	height: 15px;
+	border-typer: solid;
+	border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+QScrollBar::add-line:vertical:hover {	
+	background-color: rgb(198, 198, 198);
+}
+QScrollBar::add-line:vertical:pressed {	
+	background-color: rgb(138, 138, 138);
+}
+
+/* RESET ARROW */
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+	background: none;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+}
+</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAsNeeded</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="autoScroll">
+     <bool>true</bool>
+    </property>
+    <property name="autoScrollMargin">
+     <number>16</number>
+    </property>
+    <property name="showDropIndicator" stdset="0">
+     <bool>true</bool>
+    </property>
+    <property name="dragEnabled">
+     <bool>false</bool>
+    </property>
+    <property name="dragDropMode">
+     <enum>QAbstractItemView::NoDragDrop</enum>
+    </property>
+    <property name="defaultDropAction">
+     <enum>Qt::CopyAction</enum>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>false</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectItems</enum>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>56</width>
+      <height>56</height>
+     </size>
+    </property>
+    <property name="textElideMode">
+     <enum>Qt::ElideLeft</enum>
+    </property>
+    <property name="verticalScrollMode">
+     <enum>QAbstractItemView::ScrollPerItem</enum>
+    </property>
+    <property name="movement">
+     <enum>QListView::Static</enum>
+    </property>
+    <property name="flow">
+     <enum>QListView::TopToBottom</enum>
+    </property>
+    <property name="isWrapping" stdset="0">
+     <bool>false</bool>
+    </property>
+    <property name="resizeMode">
+     <enum>QListView::Fixed</enum>
+    </property>
+    <property name="layoutMode">
+     <enum>QListView::SinglePass</enum>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="gridSize">
+     <size>
+      <width>0</width>
+      <height>80</height>
+     </size>
+    </property>
+    <property name="viewMode">
+     <enum>QListView::ListMode</enum>
+    </property>
+    <property name="modelColumn">
+     <number>0</number>
+    </property>
+    <property name="uniformItemSizes">
+     <bool>true</bool>
+    </property>
+    <property name="batchSize">
+     <number>100</number>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
+    </property>
+    <property name="selectionRectVisible">
+     <bool>false</bool>
+    </property>
+    <property name="sortingEnabled">
+     <bool>false</bool>
+    </property>
+    <item>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../icons/normal/розетка норм.svg</normaloff>
+       <selectedoff>../icons/selected/розетка.svg</selectedoff>../icons/normal/розетка норм.svg</iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../icons/normal/жнерго норм.svg</normaloff>
+       <selectedoff>../icons/selected/энергоблок.svg</selectedoff>../icons/normal/жнерго норм.svg</iconset>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../icons/normal/рисование норм.svg</normaloff>
+       <selectedoff>../icons/selected/перенос.svg</selectedoff>../icons/normal/рисование норм.svg</iconset>
+     </property>
+    </item>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
