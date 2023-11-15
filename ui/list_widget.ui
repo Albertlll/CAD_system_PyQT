@@ -228,7 +228,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
      <bool>false</bool>
     </property>
     <property name="selectionMode">
-     <enum>QAbstractItemView::SingleSelection</enum>
+     <enum>QAbstractItemView::NoSelection</enum>
     </property>
     <property name="selectionBehavior">
      <enum>QAbstractItemView::SelectItems</enum>
@@ -296,8 +296,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../icons/normal/розетка норм.svg</normaloff>
-       <selectedoff>../icons/selected/розетка.svg</selectedoff>../icons/normal/розетка норм.svg</iconset>
+       <normaloff>../icons/on_list/power socket.svg</normaloff>../icons/on_list/power socket.svg</iconset>
      </property>
     </item>
     <item>
@@ -306,8 +305,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../icons/normal/жнерго норм.svg</normaloff>
-       <selectedoff>../icons/selected/энергоблок.svg</selectedoff>../icons/normal/жнерго норм.svg</iconset>
+       <normaloff>../icons/on_list/electric panel.svg</normaloff>../icons/on_list/electric panel.svg</iconset>
      </property>
     </item>
     <item>
@@ -316,10 +314,30 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>../icons/normal/рисование норм.svg</normaloff>
-       <selectedoff>../icons/selected/перенос.svg</selectedoff>../icons/normal/рисование норм.svg</iconset>
+       <normaloff>../icons/on_list/wire.svg</normaloff>../icons/on_list/wire.svg</iconset>
      </property>
     </item>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>100</y>
+      <width>651</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGraphicsView{
+border: 1px solid white;
+}
+QGraphicsView::item{
+background-color: rgb(70, 135, 255);
+}</string>
+    </property>
    </widget>
   </widget>
  </widget>
