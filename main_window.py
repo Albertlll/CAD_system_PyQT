@@ -1,35 +1,97 @@
+import typing
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QMainWindow, QAction, QMenu, QGraphicsScene, QGraphicsView, QToolButton, QFileDialog, QColorDialog, QLabel, QListWidget,
-    QListWidgetItem, QGraphicsItem, QLineEdit
+    QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem
 )
 from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent
-from PyQt5.QtCore import Qt, QPointF, QEvent
+from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF
 from PyQt5 import QtGui 
 from PyQt5 import uic
 from py_ui.list_widget import Ui_MainWindow
 from constants import *
 from elements import QGraphicsPixmapItem
-
+from wire import Wire
 class MainForm(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('ui/list_widget.ui', self)
 
-        self.graphicsView: QGraphicsView
+        self.view: QGraphicsView
         self.list: QListWidget
 
-        self.wires_painting = False
+        self.first_waiting = False
+        self.wire_painting = False
+
         self.wires = []
         self.wire = None
+        self.wire : Wire
 
         self.list.itemClicked.connect(self.add_elem_to_center)
+
+        # self.scene = QGraphicsScene()
+        # self.scene.setSceneRect(0, 0, self.graphicsView.rect().height(), self.graphicsView.rect().width())
+        # self.graphicsView.setScene(self.scene)
+
+        self.create_view()
+        self.pen = QPen()
+        self.pen.setWidth(5)
+        self.pen.setColor(Qt.black)
+
+
+        self.count = 0
+
+    def create_view(self):
         self.scene = QGraphicsScene()
-        self.scene.setSceneRect(0, 0, self.graphicsView.rect().width(), self.graphicsView.rect().height())
-        self.graphicsView.setScene(self.scene)
+        self.view = QGraphicsView(self.scene, self)
 
-        #self.graphicsView.mouseMoveEvent = self.mouse_move
-        #self.list.itemClicked.connect(self.clicked)
+        self.scene.setSceneRect(0, 0, 500, 500)
+        self.view.setGeometry(0, 0, 500, 500)
 
+
+    def draw_line(self, first_pos, second_pos):
+        self.wire.add_point(first_pos)
+        line = QGraphicsLineItem(QLineF(first_pos, second_pos))
+        line.setPen(self.pen)
+        line.setZValue(0)
+        self.scene.addItem(line)
+        self.wire.lines.append(line)
+        self.wire.elems.append(line)
+
+
+    def get_last_point(self):
+        return self.wire.points[-1]
+    
+    def mouseDoubleClickEvent(self, a0: QMouseEvent):
+        pos = a0.pos()
+        print(self.wire)
+        last_point = self.get_last_point()
+        last_point : QPoint
+        #now_point = self.wire_coords(pos.x(), pos.y(), last_point.x(), last_point.y())
+        now_point = pos
+
+        # last_point.setX(last_point.x() - self.graphicsView.x())
+        # last_point.setY(last_point.y() - self.graphicsView.y())
+
+        now_point.setX(now_point.x() - self.view.x())
+        now_point.setY(now_point.y() - self.view.y())
+        self.draw_line(now_point, last_point)
+
+        # Пока убирать другие способы запоминать куски провода не буду, но использую group
+        # Отмена, используется проход по всем элементам
+
+
+        for item in self.view.items():
+            print(item.type())
+
+
+    # def mouse_checher(self, event):
+    #     self.count += 1
+    #     if self.wires_painting and self.wire:
+    #          last_x = self.wire.points[-1].x()
+    #          last_y = self.wire.points[-1].y()
+
+    #          self.graphicsView.scene().addLine(last_x, last_y, event.pos().x(), event.pos().y())
+    
     # def mouse_move(self, event):
     #     if self.wires_painting and self.wire:
     #         last_x = self.wire.points[-1].x()
@@ -69,18 +131,42 @@ class MainForm(QMainWindow):
         self.list: QListWidget
 
         if self.find() == 2:
-            #self.wires_painting = True
-            pass
+            self.first_waiting = True
+            self.wire_painting = True
+            # Тут при нажатии на палец
+
         else:
+            if self.wire_painting:
+                print('xbc')
+                self.wire_painting = False
+                for item in self.view.items():
+                    if item in self.wire.lines:
+                        self.scene.removeItem(item)
+
+                self.wire = None
+
             pixmap = QPixmap(self.get_url_to_field(False))
             pic = QGraphicsPixmapItem(self)
             pic.setPixmap(pixmap)
             pic.setScale(ICON_SCALE)
+            pic.setZValue(1)
 
-            pic.setPos(self.graphicsView.width() // 2, self.graphicsView.height() // 2)
+            pic.setPos(self.scene.width() // 2, self.scene.height() // 2)
             pic.setFlags(QGraphicsItem.ItemIsMovable)
-            self.graphicsView.scene().addItem(pic)
+            self.scene.addItem(pic)
 
-    def set_properties_view(self, item):
-        #Та самая функция
-        pass
+
+    # def wire_coords(self, x, y, x1, y1):
+    #     if x == x1:
+    #         return (x, y)
+    #     elif y == y1:
+    #         return (x, y)
+    #     else:
+    #         k = (y - y1) / (x - x1)
+    #         b = y - k * x
+    #         if abs(k) > 1:
+    #             y_new = k * x1 + b
+    #             return QPoint(x, round (y_new) )
+    #         else:
+    #             x_new = (y1 - b) / k
+    #             return QPoint(round (x_new) , y)

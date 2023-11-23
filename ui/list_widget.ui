@@ -318,27 +318,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
      </property>
     </item>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>100</y>
-      <width>651</width>
-      <height>431</height>
-     </rect>
-    </property>
-    <property name="mouseTracking">
-     <bool>true</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QGraphicsView{
-border: 1px solid white;
-}
-QGraphicsView::item{
-background-color: rgb(70, 135, 255);
-}</string>
-    </property>
-   </widget>
   </widget>
  </widget>
  <resources/>
