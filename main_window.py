@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
     QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem, QGraphicsSceneMouseEvent, QGraphicsSceneWheelEvent
 )
 from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent
-from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF
+from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF, QPointF
 from PyQt5 import QtGui 
 from PyQt5 import uic
 from py_ui.list_widget import Ui_MainWindow
@@ -62,15 +62,34 @@ class MainForm(QMainWindow):
 
 
     def draw_line(self, first_pos, second_pos):
-        self.wire.add_point(first_pos)
-        line = QGraphicsLineItem(QLineF(first_pos, second_pos))
+
+        first_pos_modif= self.modification_coords(second_pos, first_pos)
+        self.wire.add_point(first_pos_modif)
+
+        line = QGraphicsLineItem(QLineF(first_pos_modif, second_pos))
+
         line.setPen(self.pen)
         line.setZValue(0)
         self.scene.addItem(line)
         self.wire.lines.append(line)
         self.wire.elems.append(line)
 
-
+    def modification_coords(self, first: QPoint, second: QPoint):
+            p = QPointF()
+            dx = abs(first.x()-second.x())
+            dy = abs(first.y() - second.y())
+            if(first.x()!=second.x() or first.y()!=second.y()):
+                if (dx > dy):
+                    p.setX(int(second.x()))
+                    p.setY(int(first.y()))
+                else:
+                    p.setX(int(first.x()))
+                    p.setY(int(second.y()))
+            else:
+                p.setX(int(second.x()))
+                p.setY(int(second.y()))
+            return p
+    
     def get_last_point(self):
         return self.wire.points[-1]
     
@@ -88,6 +107,7 @@ class MainForm(QMainWindow):
 
         now_point.setX(now_point.x())
         now_point.setY(now_point.y())
+
         self.draw_line(now_point, last_point)
 
         # Пока убирать другие способы запоминать куски провода не буду, но использую group

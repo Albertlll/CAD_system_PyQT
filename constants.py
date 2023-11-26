@@ -18,4 +18,4 @@ NAMES = {
 
 }
 
-ICON_SCALE = 0.5
+ICON_SCALE = 0.2
