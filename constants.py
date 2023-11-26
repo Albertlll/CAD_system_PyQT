@@ -12,5 +12,10 @@ SELECTED_ICON_PATHS = {
              1:f'{ON_FIELD_PATH}/selected/electric panel.svg',
              }
 
+NAMES = {
+    0: 'Розетка',
+    1: 'Щиток'
 
-ICON_SCALE = 0.3
+}
+
+ICON_SCALE = 0.5

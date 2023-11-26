@@ -1,10 +1,11 @@
+import typing
 from PyQt5.QtWidgets import (
-    QApplication, QWidget, QVBoxLayout, QMainWindow, QAction, QMenu, QGraphicsScene, QGraphicsView, QToolButton, QFileDialog, QColorDialog, QLabel, QListWidget, QGraphicsPixmapItem,
-    QListWidgetItem, QGraphicsItem, QLineEdit
+    QApplication, QGraphicsSceneDragDropEvent, QGraphicsSceneMouseEvent, QWidget, QVBoxLayout, QMainWindow, QAction, QMenu, QGraphicsScene, QGraphicsView, QToolButton, QFileDialog, QColorDialog, QLabel, QListWidget, QGraphicsPixmapItem,
+    QListWidgetItem, QGraphicsItem, QLineEdit, QDoubleSpinBox, QSpinBox
 )
 from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent
 from PyQt5.QtCore import Qt, QPoint, QPointF, QEvent, QRect
-from PyQt5 import QtGui 
+from PyQt5 import QtCore, QtGui 
 from PyQt5 import uic
 from py_ui.list_widget import Ui_MainWindow
 from constants import *
@@ -14,8 +15,25 @@ from wire import Wire
 class QGraphicsPixmapItem(QGraphicsPixmapItem):
     def __init__(self, main_wind):
         super(QGraphicsPixmapItem, self).__init__()
+        self.setFlag(QGraphicsPixmapItem.GraphicsItemFlag.ItemSendsScenePositionChanges)
         self.main_wind = main_wind
         self.type_elem_ind = main_wind.find() 
+        self.height = 0.2
+
+    def mouseMoveEvent(self, event: QGraphicsSceneMouseEvent | None) -> None:
+        self.pars_pos()
+        return super().mouseMoveEvent(event)
+
+    def pars_inf(self):
+        self.main_wind.object_name.setText(NAMES[self.type_elem_ind])
+        self.main_wind.item_img.setPixmap(QPixmap(NORMAL_ICON_PATHS[self.type_elem_ind]))
+        self.main_wind.obj_height.setValue(self.height)
+
+        self.pars_pos()
+    
+    def pars_pos(self):
+        self.main_wind.obj_x.setValue(int(self.scenePos().x()))
+        self.main_wind.obj_y.setValue(int(self.scenePos().y()))
     
     def mousePressEvent(self, event):
 
@@ -26,6 +44,7 @@ class QGraphicsPixmapItem(QGraphicsPixmapItem):
                 path = NORMAL_ICON_PATHS[item.type_elem_ind]
             else:
                 path = SELECTED_ICON_PATHS[item.type_elem_ind]
+                self.pars_inf()
             pixmap = QPixmap(path)
             item.setPixmap(pixmap)
             
@@ -38,7 +57,7 @@ class QGraphicsPixmapItem(QGraphicsPixmapItem):
             self.main_wind.wire.add_start_item(self)
             # scene_item_pos = self.scenePos().toPoint()
             scene_item_pos = self.get_center_point()
-            self.main_wind.wire.add_point(scene_item_pos)
+            #self.main_wind.wire.add_point(scene_item_pos)
             return
         
         if not self.main_wind.first_waiting and self.main_wind.wire_painting:

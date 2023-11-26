@@ -21,15 +21,32 @@ class Wire():
 
         self.start_wire_item_index = 0
         self.end_wire_item_index = 0
+
+        self.wire_graf = []
+        self.next_node_ind = 0
+        self.nodes = {
+
+        }
         #scene.addItem(self.group)
     
     def add_start_item(self, elem):
         self.start_elem = elem
+        # self.nodes[self.next_node_ind] = elem
+        # self.next_node_ind += 1
+
+        self.points.append(elem.get_center_point())
         self.elems.append(elem)
 
     def add_end_item(self, elem):
         self.end_elem = elem
+        # self.nodes[self.next_node_ind] = elem
+        # self.next_node_ind += 1
+
+        self.points.append(elem.get_center_point())
         self.elems.append(elem)
 
     def add_point(self, point):
+        # self.nodes[self.next_node_ind] = point
+        # self.next_node_ind += 1
+        self.elems.append(point)
         self.points.append(point)

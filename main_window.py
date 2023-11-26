@@ -1,10 +1,10 @@
 import typing
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QMainWindow, QAction, QMenu, QGraphicsScene, QGraphicsView, QToolButton, QFileDialog, QColorDialog, QLabel, QListWidget,
-    QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem
+    QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem, QGraphicsSceneMouseEvent, QGraphicsSceneWheelEvent
 )
 from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent
-from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF
+from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF
 from PyQt5 import QtGui 
 from PyQt5 import uic
 from py_ui.list_widget import Ui_MainWindow
@@ -14,7 +14,7 @@ from wire import Wire
 class MainForm(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('ui/list_widget.ui', self)
+        uic.loadUi('ui/alan_wires.ui', self)
 
         self.view: QGraphicsView
         self.list: QListWidget
@@ -41,11 +41,24 @@ class MainForm(QMainWindow):
         self.count = 0
 
     def create_view(self):
-        self.scene = QGraphicsScene()
-        self.view = QGraphicsView(self.scene, self)
+        self.scene = QGraphicsScene(0, 0, 1000, 1000, self.view)
+        self.scene.mouseDoubleClickEvent = self.SceneMouseDoubleClickEvent
+        # self.scene.dragMoveEvent = self.ScenedragMoveEvent
+        self.view.setScene(self.scene)
+        
+        self.view.show()
+        print(self.scene.sceneRect())
+        # self.view.setStyleSheet("""
+        # background-color: rgba(255,255,255);
+        # border-radius: 30px;
 
-        self.scene.setSceneRect(0, 0, 500, 500)
-        self.view.setGeometry(0, 0, 500, 500)
+        # """)
+
+        
+        # self.view.setGeometry(130, 160, 500, 350)
+
+    # def ScenedragMoveEvent(self, a0=QGraphicsSceneMouseEvent):
+    #     print(a0.scenePos())
 
 
     def draw_line(self, first_pos, second_pos):
@@ -61,8 +74,9 @@ class MainForm(QMainWindow):
     def get_last_point(self):
         return self.wire.points[-1]
     
-    def mouseDoubleClickEvent(self, a0: QMouseEvent):
-        pos = a0.pos()
+    def SceneMouseDoubleClickEvent(self, a0: QGraphicsSceneMouseEvent):
+        pos = a0.scenePos()
+        print(pos)
         print(self.wire)
         last_point = self.get_last_point()
         last_point : QPoint
@@ -72,8 +86,8 @@ class MainForm(QMainWindow):
         # last_point.setX(last_point.x() - self.graphicsView.x())
         # last_point.setY(last_point.y() - self.graphicsView.y())
 
-        now_point.setX(now_point.x() - self.view.x())
-        now_point.setY(now_point.y() - self.view.y())
+        now_point.setX(now_point.x())
+        now_point.setY(now_point.y())
         self.draw_line(now_point, last_point)
 
         # Пока убирать другие способы запоминать куски провода не буду, но использую group
@@ -150,7 +164,7 @@ class MainForm(QMainWindow):
             pic.setPixmap(pixmap)
             pic.setScale(ICON_SCALE)
             pic.setZValue(1)
-
+            pic.setPos(pic.get_center_point())
             pic.setPos(self.scene.width() // 2, self.scene.height() // 2)
             pic.setFlags(QGraphicsItem.ItemIsMovable)
             self.scene.addItem(pic)
