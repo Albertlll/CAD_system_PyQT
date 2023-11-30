@@ -1,16 +1,16 @@
 import typing
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QMainWindow, QAction, QMenu, QGraphicsScene, QGraphicsView, QToolButton, QFileDialog, QColorDialog, QLabel, QListWidget,
-    QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem, QGraphicsSceneMouseEvent, QGraphicsSceneWheelEvent
+    QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem, QGraphicsSceneMouseEvent, QGraphicsSceneWheelEvent, QGraphicsDropShadowEffect, 
 )
-from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent
+from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent, QWheelEvent, QKeyEvent
 from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF, QPointF
-from PyQt5 import QtGui 
-from PyQt5 import uic
+from PyQt5 import QtGui, uic
 from py_ui.list_widget import Ui_MainWindow
 from constants import *
-from elements import QGraphicsPixmapItem
+from elements import QGraphicsPixmapItem, Element
 from wire import Wire
+
 class MainForm(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -21,6 +21,8 @@ class MainForm(QMainWindow):
 
         self.first_waiting = False
         self.wire_painting = False
+        self.selected : QGraphicsPixmapItem
+        self.selected = None
 
         self.wires = []
         self.wire = None
@@ -31,7 +33,7 @@ class MainForm(QMainWindow):
         # self.scene = QGraphicsScene()
         # self.scene.setSceneRect(0, 0, self.graphicsView.rect().height(), self.graphicsView.rect().width())
         # self.graphicsView.setScene(self.scene)
-
+        self.delete_btn.clicked.connect(self.delete)
         self.create_view()
         self.pen = QPen()
         self.pen.setWidth(5)
@@ -40,21 +42,48 @@ class MainForm(QMainWindow):
 
         self.count = 0
 
+    # def keyPressEvent(self, event: QKeyEvent | None) -> None:
+    #     if int(event.modifiers()) == 67108864:
+    #         zoomInFactor = 1.25
+    #         zoomOutFactor = 1 / zoomInFactor
+    #         # Save the scene pos
+    #         oldPos = self.view.mapToScene(event.pos())
+    #         # Zoom
+    #         if event.angleDelta().y() > 0:
+    #             zoomFactor = zoomInFactor
+    #         else:
+    #             zoomFactor = zoomOutFactor
+    #         self.view.scale(zoomFactor, zoomFactor)
+    #         # Get the new position
+    #         newPos = self.view.mapToScene(event.pos())
+    #         # Move scene to old position
+    #         delta = newPos - oldPos
+    #         self.view.translate(delta.x(), delta.y())
+
+    def delete(self):
+        if self.selected:
+            self.scene.removeItem(self.selected)
+
     def create_view(self):
         self.scene = QGraphicsScene(0, 0, 1000, 1000, self.view)
         self.scene.mouseDoubleClickEvent = self.SceneMouseDoubleClickEvent
         # self.scene.dragMoveEvent = self.ScenedragMoveEvent
         self.view.setScene(self.scene)
-        
         self.view.show()
         print(self.scene.sceneRect())
+
+        shadow = QGraphicsDropShadowEffect()
+        shadow.setBlurRadius(25)
+        shadow.setColor(QColor(0, 0, 0, 80))
+        shadow.setOffset(0)
+        self.view.setGraphicsEffect(shadow)
+
+
         # self.view.setStyleSheet("""
         # background-color: rgba(255,255,255);
         # border-radius: 30px;
 
         # """)
-
-        
         # self.view.setGeometry(130, 160, 500, 350)
 
     # def ScenedragMoveEvent(self, a0=QGraphicsSceneMouseEvent):
@@ -62,7 +91,6 @@ class MainForm(QMainWindow):
 
 
     def draw_line(self, first_pos, second_pos):
-
         first_pos_modif= self.modification_coords(second_pos, first_pos)
         self.wire.add_point(first_pos_modif)
 
@@ -73,6 +101,40 @@ class MainForm(QMainWindow):
         self.scene.addItem(line)
         self.wire.lines.append(line)
         self.wire.elems.append(line)
+
+    def draw_fast_line(self, first_pos, second_pos):
+        self.wire.add_point(first_pos)
+        line = QGraphicsLineItem(QLineF(first_pos, self.modification_coords_for_fast_line(first_pos, second_pos)))
+        line1 = QGraphicsLineItem(QLineF(self.modification_coords_for_fast_line(first_pos, second_pos),second_pos))
+        line.setPen(self.pen)
+        line.setZValue(0)
+        line1.setPen(self.pen)
+        line1.setZValue(0)
+        self.scene.addItem(line1)
+        self.wire.lines.append(line1)
+        self.wire.elems.append(line1)
+        self.scene.addItem(line)
+        self.wire.lines.append(line)
+        self.wire.elems.append(line)
+
+    def modification_coords_for_fast_line(self, first: QPoint, second: QPoint):
+        p = QPoint()
+
+        if(first.y()<second.y() and first.x()<second.x()):
+            p.setX(first.x())
+            p.setY(second.y())
+        elif(first.y()<second.y() and first.x()>second.x()):
+            p.setX(second.x())
+            p.setY(first.y())
+        elif(first.y()>second.y() and first.x()<second.x()):
+            p.setX(second.x())
+            p.setY(first.y())
+        elif (first.y() > second.y() and first.x() > second.x()):
+            p.setX(first.x())
+            p.setY(second.y())
+        else:
+            return 0
+        return p
 
     def modification_coords(self, first: QPoint, second: QPoint):
             p = QPointF()
@@ -180,7 +242,7 @@ class MainForm(QMainWindow):
                 self.wire = None
 
             pixmap = QPixmap(self.get_url_to_field(False))
-            pic = QGraphicsPixmapItem(self)
+            pic = Element(self)
             pic.setPixmap(pixmap)
             pic.setScale(ICON_SCALE)
             pic.setZValue(1)

@@ -14,11 +14,138 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(123, 123, 123);
+   <string notr="true">QScrollBar:horizontal  {
+        height: 15px;
+        margin: 3px 15px 3px 15px;
+        border: 1px transparent   #c5c5c5;
+        border-radius: 4px;
+        background-color: none;    /*  #c5c5c5; */
+    }
+
+    QScrollBar::handle:horizontal
+    {
+        background-color: silver;      /* #9d9d9d; */
+        min-width: 5px;
+        border-radius: 4px;
+    }
+
+    QScrollBar::add-line:horizontal
+    {
+        margin: 0px 3px 0px 3px;
+        border-image: url(:/qss_icons/rc/right_arrow_disabled.png);
+        width: 10px;
+        height: 10px;
+        subcontrol-position: right;
+        subcontrol-origin: margin;
+    }
+
+    QScrollBar::sub-line:horizontal
+    {
+        margin: 0px 3px 0px 3px;
+        border-image: url(:/qss_icons/rc/left_arrow_disabled.png);
+        height: 10px;
+        width: 10px;
+        subcontrol-position: left;
+        subcontrol-origin: margin;
+    }
+
+    QScrollBar::add-line:horizontal:hover,QScrollBar::add-line:horizontal:on
+    {
+        border-image: url(:/qss_icons/rc/right_arrow.png);
+        height: 10px;
+        width: 10px;
+        subcontrol-position: right;
+        subcontrol-origin: margin;
+    }
+
+
+    QScrollBar::sub-line:horizontal:hover, QScrollBar::sub-line:horizontal:on
+    {
+        border-image: url(:/qss_icons/rc/left_arrow.png);
+        height: 10px;
+        width: 10px;
+        subcontrol-position: left;
+        subcontrol-origin: margin;
+    }
+
+    QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal
+    {
+        background: none;
+    }
+
+
+    QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
+    {
+        background: none;
+    }
+
+    QScrollBar:vertical
+    {
+        background-color:none;  /*  #c5c5c5; */
+        width: 15px;
+        margin: 15px 3px 15px 3px;
+        border: 1px transparent #adadad;
+        border-radius: 4px;
+    }
+
+    QScrollBar::handle:vertical
+    {
+        background-color:silver;         /*  #c5c5c5; */
+        min-height: 5px;
+        border-radius: 4px;
+    }
+
+    QScrollBar::sub-line:vertical
+    {
+        margin: 3px 0px 3px 0px;
+        border-image: url(:/qss_icons/rc/up_arrow_disabled.png);
+        height: 10px;
+        width: 10px;
+        subcontrol-position: top;
+        subcontrol-origin: margin;
+    }
+
+    QScrollBar::add-line:vertical
+    {
+        margin: 3px 0px 3px 0px;
+        border-image: url(:/qss_icons/rc/down_arrow_disabled.png);
+        height: 10px;
+        width: 10px;
+        subcontrol-position: bottom;
+        subcontrol-origin: margin;
+    }
+
+    QScrollBar::sub-line:vertical:hover,QScrollBar::sub-line:vertical:on
+    {
+        border-image: url(:/qss_icons/rc/up_arrow.png);
+        height: 10px;
+        width: 10px;
+        subcontrol-position: top;
+        subcontrol-origin: margin;
+    }
+
+    QScrollBar::add-line:vertical:hover, QScrollBar::add-line:vertical:on
+    {
+        border-image: url(:/qss_icons/rc/down_arrow.png);
+        height: 10px;
+        width: 10px;
+        subcontrol-position: bottom;
+        subcontrol-origin: margin;
+    }
+
+    QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical
+    {
+        background: none;
+    }
+
+    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
+    {
+        background: none;
+    }
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="background_parametrs">
     <property name="geometry">
      <rect>
       <x>685</x>
@@ -38,7 +165,7 @@ QDoubleSpinBox{}</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="size">
     <property name="geometry">
      <rect>
       <x>732</x>
@@ -210,7 +337,7 @@ color: white;
      <rect>
       <x>771</x>
       <y>183</y>
-      <width>72</width>
+      <width>81</width>
       <height>42</height>
      </rect>
     </property>
@@ -242,9 +369,9 @@ background-color: rgb(255, 255, 255);</string>
    <widget class="QSpinBox" name="obj_y">
     <property name="geometry">
      <rect>
-      <x>857</x>
+      <x>860</x>
       <y>183</y>
-      <width>72</width>
+      <width>81</width>
       <height>42</height>
      </rect>
     </property>
@@ -273,7 +400,7 @@ background-color: rgb(255, 255, 255);</string>
      <number>1000</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="delete_btn">
     <property name="geometry">
      <rect>
       <x>715</x>
@@ -332,7 +459,7 @@ color: white;
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="elements">
     <property name="geometry">
      <rect>
       <x>750</x>
@@ -675,7 +802,7 @@ color: white;
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="scale">
     <property name="geometry">
      <rect>
       <x>760</x>
@@ -767,7 +894,7 @@ background-color: rgb(255, 255, 255);</string>
      <enum>QAbstractSpinBox::NoButtons</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="double_points">
     <property name="geometry">
      <rect>
       <x>820</x>
@@ -801,7 +928,7 @@ color: white;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
+      <y>10</y>
       <width>131</width>
       <height>41</height>
      </rect>
@@ -842,18 +969,22 @@ background-color: rgb(255, 255, 255);
    <widget class="QGraphicsView" name="view">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>70</y>
-      <width>661</width>
-      <height>511</height>
+      <x>40</x>
+      <y>130</y>
+      <width>601</width>
+      <height>391</height>
      </rect>
     </property>
     <property name="mouseTracking">
      <bool>true</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">        background-color: rgb(255,255,255);
-        border-radius: 10px;</string>
+     <string notr="true">QGraphicsView{
+  background-color: rgb(255,255,255);
+        border-radius: 10px;
+}
+
+</string>
     </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOn</enum>
@@ -861,7 +992,53 @@ background-color: rgb(255, 255, 255);
     <property name="horizontalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
+    <property name="sceneRect">
+     <rectf>
+      <x>0.000000000000000</x>
+      <y>0.000000000000000</y>
+      <width>1000.000000000000000</width>
+      <height>1000.000000000000000</height>
+     </rectf>
+    </property>
    </widget>
+   <widget class="QLabel" name="background">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>960</width>
+      <height>600</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(123, 123, 123);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>background</zorder>
+   <zorder>background_parametrs</zorder>
+   <zorder>size</zorder>
+   <zorder>field_size_x_m</zorder>
+   <zorder>field_size_y_m</zorder>
+   <zorder>line</zorder>
+   <zorder>object_name</zorder>
+   <zorder>item_img</zorder>
+   <zorder>obj_x</zorder>
+   <zorder>obj_y</zorder>
+   <zorder>delete_btn</zorder>
+   <zorder>line_2</zorder>
+   <zorder>elements</zorder>
+   <zorder>list</zorder>
+   <zorder>obj_height</zorder>
+   <zorder>line_3</zorder>
+   <zorder>scale</zorder>
+   <zorder>scale_first</zorder>
+   <zorder>scale_first_2</zorder>
+   <zorder>double_points</zorder>
+   <zorder>lenght</zorder>
+   <zorder>view</zorder>
   </widget>
  </widget>
  <resources/>

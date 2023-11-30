@@ -12,7 +12,7 @@ from constants import *
 from wire import Wire
 
 
-class QGraphicsPixmapItem(QGraphicsPixmapItem):
+class Element(QGraphicsPixmapItem):
     def __init__(self, main_wind):
         super(QGraphicsPixmapItem, self).__init__()
         self.setFlag(QGraphicsPixmapItem.GraphicsItemFlag.ItemSendsScenePositionChanges)
@@ -44,6 +44,7 @@ class QGraphicsPixmapItem(QGraphicsPixmapItem):
                 path = NORMAL_ICON_PATHS[item.type_elem_ind]
             else:
                 path = SELECTED_ICON_PATHS[item.type_elem_ind]
+                self.main_wind.selected = item
                 self.pars_inf()
             pixmap = QPixmap(path)
             item.setPixmap(pixmap)
@@ -60,11 +61,14 @@ class QGraphicsPixmapItem(QGraphicsPixmapItem):
             #self.main_wind.wire.add_point(scene_item_pos)
             return
         
-        if not self.main_wind.first_waiting and self.main_wind.wire_painting:
+        if not self.main_wind.first_waiting and self.main_wind.wire_painting and self != self.main_wind.wire.start_elem:
             print("чичивап")
 
             scene_item_pos = self.get_center_point()
-            self.main_wind.draw_line(self.main_wind.get_last_point(), scene_item_pos)
+            
+            self.main_wind.draw_fast_line(QPoint(int(self.main_wind.get_last_point().x()),
+                                                 int(self.main_wind.get_last_point().y())),
+                                                 scene_item_pos)
 
             self.main_wind.wire.add_point(scene_item_pos)
             self.main_wind.wire_painting = False
