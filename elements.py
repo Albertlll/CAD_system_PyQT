@@ -100,9 +100,12 @@ class Element(QGraphicsPixmapItem):
 class WireLine(QGraphicsLineItem):
     def __init__(self, line, wire: Wire, main_wind: QMainWindow):
         super(QGraphicsLineItem, self).__init__(line)
+        self.wire = wire
         self.lines_group = wire.lines
         self.main_wind = main_wind
 
+
     def mousePressEvent(self, event):
-        for i in self.lines_group:
-            self.main_wind.scene.removeItem(i)
+        if not self.main_wind.wire:
+            self.main_wind.wire = self.wire
+        self.main_wind.clear_wires()

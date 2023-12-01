@@ -1,7 +1,7 @@
 import typing
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QMainWindow, QAction, QMenu, QGraphicsScene, QGraphicsView, QToolButton, QFileDialog, QColorDialog, QLabel, QListWidget,
-    QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem, QGraphicsSceneMouseEvent, QGraphicsSceneWheelEvent, QGraphicsDropShadowEffect, 
+    QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem, QGraphicsSceneMouseEvent, QGraphicsSceneWheelEvent, QGraphicsDropShadowEffect, QDoubleSpinBox
 )
 from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent, QWheelEvent, QKeyEvent
 from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF, QPointF
@@ -10,11 +10,17 @@ from py_ui.list_widget import Ui_MainWindow
 from constants import *
 from elements import QGraphicsPixmapItem, Element, WireLine
 from wire import Wire
+import math
 
 class MainForm(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('ui/alan_wires.ui', self)
+        self.field_size_x_m: QDoubleSpinBox
+        self.field_size_y_m: QDoubleSpinBox
+
+        # self.list.setEnabled(False)
+        # self.view.setEnabled(False)
 
         self.view: QGraphicsView
         self.list: QListWidget
@@ -38,6 +44,64 @@ class MainForm(QMainWindow):
         self.pen = QPen()
         self.pen.setWidth(5)
         self.pen.setColor(Qt.black)
+        self.field_size_x_m: QDoubleSpinBox
+        self.field_size_y_m: QDoubleSpinBox
+
+        self.field_size_x_m.valueChanged.connect(self.sizerect)
+        self.field_size_y_m.valueChanged.connect(self.sizerect)
+
+
+    def clear_wires(self):
+        print('FDFDFDFDF')
+        self.wire_painting = False
+        for item in self.view.items():
+            if item in self.wire.lines:
+                self.scene.removeItem(item)                
+                
+        del self.wires[self.wires.index(self.wire)]
+        self.wire = None
+        self.count_wire_len()
+
+    def sizerect(self):
+        inpwight = self.field_size_x_m.value()
+        inpheight = self.field_size_y_m.value()
+        scale = self.scalerect(inpwight, inpheight)
+        w_change = inpwight * scale * 100
+        h_change = inpheight * scale * 100
+
+        self.view.setSceneRect(0, 0, w_change, h_change)
+
+    def scalerect(self, inp_w, inp_h):
+        scale_w = 10 / inp_w
+        scale_h = 10 / inp_h
+        if (scale_w >= 1 and scale_h >= 1):
+            if (scale_w > scale_h):
+                return scale_w
+            else:
+                return scale_h
+        elif (scale_w <= 1 and scale_h <= 1):
+            if (scale_w > scale_h):
+                return scale_h
+            else:
+                return scale_w
+        elif (scale_w <= 1 and scale_h >= 1):
+            return scale_w
+        elif (scale_w >= 1 and scale_h <= 1):
+            return scale_h
+        else:
+            return scale_w
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         self.count = 0
@@ -102,6 +166,8 @@ class MainForm(QMainWindow):
         self.wire.lines.append(line)
         self.wire.elems.append(line)
 
+        self.count_wire_len()
+
     def draw_fast_line(self, first_pos, second_pos, ret_point_before_connect=False):
 
         first_mod_coords = self.modification_coords_for_fast_line(first_pos, second_pos)
@@ -165,21 +231,23 @@ class MainForm(QMainWindow):
         return self.wire.points[-1]
     
     def SceneMouseDoubleClickEvent(self, a0: QGraphicsSceneMouseEvent):
-        pos = a0.scenePos()
-        print(pos)
-        print(self.wire)
-        last_point = self.get_last_point()
-        last_point : QPoint
-        #now_point = self.wire_coords(pos.x(), pos.y(), last_point.x(), last_point.y())
-        now_point = pos
+        if self.wire_painting:
+            pos = a0.scenePos()
+            print(pos)
+            print(self.wire)
+            last_point = self.get_last_point()
+            last_point : QPoint
+            #now_point = self.wire_coords(pos.x(), pos.y(), last_point.x(), last_point.y())
+            now_point = pos
 
-        # last_point.setX(last_point.x() - self.graphicsView.x())
-        # last_point.setY(last_point.y() - self.graphicsView.y())
+            # last_point.setX(last_point.x() - self.graphicsView.x())
+            # last_point.setY(last_point.y() - self.graphicsView.y())
 
-        now_point.setX(now_point.x())
-        now_point.setY(now_point.y())
+            now_point.setX(now_point.x())
+            now_point.setY(now_point.y())
 
-        self.draw_line(now_point, last_point)
+            self.draw_line(now_point, last_point)
+
 
         # Пока убирать другие способы запоминать куски провода не буду, но использую group
         # Отмена, используется проход по всем элементам
@@ -243,12 +311,7 @@ class MainForm(QMainWindow):
         else:
             if self.wire_painting:
                 print('xbc')
-                self.wire_painting = False
-                for item in self.view.items():
-                    if item in self.wire.lines:
-                        self.scene.removeItem(item)
-
-                self.wire = None
+                self.clear_wires()
 
             pixmap = QPixmap(self.get_url_to_field(False))
             pic = Element(self)
@@ -261,6 +324,19 @@ class MainForm(QMainWindow):
             self.scene.addItem(pic)
 
 
+    def count_wire_len(self):
+        print('кабум')
+        counter = 0
+        for wire in self.wires:
+            print(wire)
+            for line in wire.lines:
+                counter += line.line().length() / 100
+
+        if self.wire:
+            for line in self.wire.lines:
+                counter += line.line().length() / 100
+
+        self.lenght.setValue(counter)
     # def wire_coords(self, x, y, x1, y1):
     #     if x == x1:
     #         return (x, y)
