@@ -1,7 +1,7 @@
 import typing
 from PyQt5.QtWidgets import (
     QApplication, QGraphicsSceneDragDropEvent, QGraphicsSceneMouseEvent, QWidget, QVBoxLayout, QMainWindow, QAction, QMenu, QGraphicsScene, QGraphicsView, QToolButton, QFileDialog, QColorDialog, QLabel, QListWidget, QGraphicsPixmapItem,
-    QListWidgetItem, QGraphicsItem, QLineEdit, QDoubleSpinBox, QSpinBox
+    QListWidgetItem, QGraphicsItem, QLineEdit, QDoubleSpinBox, QSpinBox, QGraphicsLineItem
 )
 from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent
 from PyQt5.QtCore import Qt, QPoint, QPointF, QEvent, QRect
@@ -19,6 +19,14 @@ class Element(QGraphicsPixmapItem):
         self.main_wind = main_wind
         self.type_elem_ind = main_wind.find() 
         self.height = 0.2
+        self.level_of_connect ={
+            180: 0,
+            0 : 0,
+            90: 0,
+            270: 0
+        }
+
+
 
     def mouseMoveEvent(self, event: QGraphicsSceneMouseEvent | None) -> None:
         self.pars_pos()
@@ -61,15 +69,17 @@ class Element(QGraphicsPixmapItem):
             #self.main_wind.wire.add_point(scene_item_pos)
             return
         
+        # Тут при выборе последнего элемента цепи
         if not self.main_wind.first_waiting and self.main_wind.wire_painting and self != self.main_wind.wire.start_elem:
             print("чичивап")
 
             scene_item_pos = self.get_center_point()
             
             self.main_wind.draw_fast_line(QPoint(int(self.main_wind.get_last_point().x()),
-                                                 int(self.main_wind.get_last_point().y())),
-                                                 scene_item_pos)
-
+                                                    int(self.main_wind.get_last_point().y())),
+                                                    scene_item_pos, True)
+            
+            
             self.main_wind.wire.add_point(scene_item_pos)
             self.main_wind.wire_painting = False
             self.main_wind.wire.add_end_item(self)
@@ -85,3 +95,14 @@ class Element(QGraphicsPixmapItem):
         print(item_rect.width())
         return QPoint(scene_item_pos.x() + int(item_rect.height() * ICON_SCALE // 2),
                        scene_item_pos.y() + int(item_rect.width() * ICON_SCALE // 2))
+
+
+class WireLine(QGraphicsLineItem):
+    def __init__(self, line, wire: Wire, main_wind: QMainWindow):
+        super(QGraphicsLineItem, self).__init__(line)
+        self.lines_group = wire.lines
+        self.main_wind = main_wind
+
+    def mousePressEvent(self, event):
+        for i in self.lines_group:
+            self.main_wind.scene.removeItem(i)

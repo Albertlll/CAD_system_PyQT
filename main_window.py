@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF, QPointF
 from PyQt5 import QtGui, uic
 from py_ui.list_widget import Ui_MainWindow
 from constants import *
-from elements import QGraphicsPixmapItem, Element
+from elements import QGraphicsPixmapItem, Element, WireLine
 from wire import Wire
 
 class MainForm(QMainWindow):
@@ -94,7 +94,7 @@ class MainForm(QMainWindow):
         first_pos_modif= self.modification_coords(second_pos, first_pos)
         self.wire.add_point(first_pos_modif)
 
-        line = QGraphicsLineItem(QLineF(first_pos_modif, second_pos))
+        line = WireLine(QLineF(first_pos_modif, second_pos), self.wire, self)
 
         line.setPen(self.pen)
         line.setZValue(0)
@@ -102,20 +102,29 @@ class MainForm(QMainWindow):
         self.wire.lines.append(line)
         self.wire.elems.append(line)
 
-    def draw_fast_line(self, first_pos, second_pos):
-        self.wire.add_point(first_pos)
-        line = QGraphicsLineItem(QLineF(first_pos, self.modification_coords_for_fast_line(first_pos, second_pos)))
-        line1 = QGraphicsLineItem(QLineF(self.modification_coords_for_fast_line(first_pos, second_pos),second_pos))
-        line.setPen(self.pen)
-        line.setZValue(0)
-        line1.setPen(self.pen)
-        line1.setZValue(0)
-        self.scene.addItem(line1)
-        self.wire.lines.append(line1)
-        self.wire.elems.append(line1)
-        self.scene.addItem(line)
-        self.wire.lines.append(line)
-        self.wire.elems.append(line)
+    def draw_fast_line(self, first_pos, second_pos, ret_point_before_connect=False):
+
+        first_mod_coords = self.modification_coords_for_fast_line(first_pos, second_pos)
+        self.draw_line(first_pos, first_mod_coords)
+        second_mod_coords = self.modification_coords_for_fast_line(first_pos, second_pos)
+        self.draw_line(second_mod_coords,second_pos)
+
+        # if ret_point_before_connect:
+        #     return second_mod_coords
+
+        # self.wire.add_point(first_pos)
+        # line = WireLine(QLineF(first_pos, self.modification_coords_for_fast_line(first_pos, second_pos)), self.wire, self)
+        # line1 = WireLine(QLineF(self.modification_coords_for_fast_line(first_pos, second_pos),second_pos), self.wire, self)
+        # line.setPen(self.pen)
+        # line.setZValue(0)
+        # line1.setPen(self.pen)
+        # line1.setZValue(0)
+        # self.scene.addItem(line1)
+        # self.wire.lines.append(line1)
+        # self.wire.elems.append(line1)
+        # self.scene.addItem(line)
+        # self.wire.lines.append(line)
+        # self.wire.elems.append(line)
 
     def modification_coords_for_fast_line(self, first: QPoint, second: QPoint):
         p = QPoint()
