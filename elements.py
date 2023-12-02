@@ -40,9 +40,11 @@ class Element(QGraphicsPixmapItem):
         self.pars_pos()
     
     def pars_pos(self):
+        self.main_wind.ch_parsed = True
         self.main_wind.obj_x.setValue(int(self.scenePos().x()))
         self.main_wind.obj_y.setValue(int(self.scenePos().y()))
-    
+        self.main_wind.ch_parsed = False
+        
     def mousePressEvent(self, event):
 
         for item in self.main_wind.view.items():

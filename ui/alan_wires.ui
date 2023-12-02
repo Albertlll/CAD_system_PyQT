@@ -10,6 +10,12 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -202,9 +208,9 @@ color: white;
    <widget class="QDoubleSpinBox" name="field_size_x_m">
     <property name="geometry">
      <rect>
-      <x>715</x>
+      <x>694</x>
       <y>60</y>
-      <width>100</width>
+      <width>121</width>
       <height>35</height>
      </rect>
     </property>
@@ -235,7 +241,7 @@ background-color: rgb(255, 255, 255);
      <double>1.000000000000000</double>
     </property>
     <property name="value">
-     <double>1.000000000000000</double>
+     <double>5.000000000000000</double>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="field_size_y_m">
@@ -243,7 +249,7 @@ background-color: rgb(255, 255, 255);
      <rect>
       <x>832</x>
       <y>60</y>
-      <width>100</width>
+      <width>121</width>
       <height>35</height>
      </rect>
     </property>
@@ -274,7 +280,7 @@ background-color: rgb(255, 255, 255);
      <double>1.000000000000000</double>
     </property>
     <property name="value">
-     <double>1.000000000000000</double>
+     <double>5.000000000000000</double>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -947,9 +953,9 @@ color: white;
    <widget class="QDoubleSpinBox" name="lenght">
     <property name="geometry">
      <rect>
-      <x>96</x>
+      <x>90</x>
       <y>21</y>
-      <width>134</width>
+      <width>231</width>
       <height>42</height>
      </rect>
     </property>
@@ -983,7 +989,7 @@ background-color: rgb(255, 255, 255);
      <double>0.000000000000000</double>
     </property>
     <property name="maximum">
-     <double>10.000000000000000</double>
+     <double>10000.000000000000000</double>
     </property>
    </widget>
    <widget class="QGraphicsView" name="view">
@@ -1042,7 +1048,7 @@ background-color: rgb(255, 255, 255);
      <rect>
       <x>20</x>
       <y>16</y>
-      <width>230</width>
+      <width>311</width>
       <height>54</height>
      </rect>
     </property>
@@ -1056,7 +1062,7 @@ border-radius: 5px;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="delete_btn_2">
+   <widget class="QPushButton" name="export_btn">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -1120,7 +1126,7 @@ border-radius: 5px;
    <zorder>view</zorder>
    <zorder>len_exp_back</zorder>
    <zorder>lenght</zorder>
-   <zorder>delete_btn_2</zorder>
+   <zorder>export_btn</zorder>
   </widget>
  </widget>
  <resources/>

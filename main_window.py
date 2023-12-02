@@ -16,6 +16,7 @@ class MainForm(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('ui/alan_wires.ui', self)
+
         self.field_size_x_m: QDoubleSpinBox
         self.field_size_y_m: QDoubleSpinBox
 
@@ -25,6 +26,7 @@ class MainForm(QMainWindow):
         self.view: QGraphicsView
         self.list: QListWidget
 
+        self.ch_parsed = False
         self.first_waiting = False
         self.wire_painting = False
         self.selected : QGraphicsPixmapItem
@@ -51,14 +53,34 @@ class MainForm(QMainWindow):
         self.field_size_y_m.valueChanged.connect(self.sizerect)
 
 
+        self.obj_x.valueChanged.connect(self.set_elem_x)
+        self.obj_y.valueChanged.connect(self.set_elem_y)
+
+
+        # self.export_btn.clicked.connect(self.export)
+
+
+    def set_elem_x(self):
+        if self.selected and not self.ch_parsed:
+            print("получилось")
+
+            self.selected.setX(self.obj_x.value())
+
+    def set_elem_y(self):
+        if self.selected and not self.ch_parsed:
+            print("получилось")
+            self.selected.setY(self.obj_y.value())
+
+
     def clear_wires(self):
         print('FDFDFDFDF')
         self.wire_painting = False
         for item in self.view.items():
             if item in self.wire.lines:
                 self.scene.removeItem(item)                
-                
-        del self.wires[self.wires.index(self.wire)]
+        
+        if self.wire in self.wires:
+            del self.wires[self.wires.index(self.wire)]
         self.wire = None
         self.count_wire_len()
 
@@ -231,7 +253,7 @@ class MainForm(QMainWindow):
         return self.wire.points[-1]
     
     def SceneMouseDoubleClickEvent(self, a0: QGraphicsSceneMouseEvent):
-        if self.wire_painting:
+        if self.wire_painting and not self.first_waiting:
             pos = a0.scenePos()
             print(pos)
             print(self.wire)
