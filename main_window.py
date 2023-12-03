@@ -1,7 +1,7 @@
 import typing
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QMainWindow, QAction, QMenu, QGraphicsScene, QGraphicsView, QToolButton, QFileDialog, QColorDialog, QLabel, QListWidget,
-    QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem, QGraphicsSceneMouseEvent, QGraphicsSceneWheelEvent, QGraphicsDropShadowEffect, QDoubleSpinBox
+    QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem, QGraphicsSceneMouseEvent, QGraphicsSceneWheelEvent, QGraphicsDropShadowEffect, QDoubleSpinBox, QSlider
 )
 from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent, QWheelEvent, QKeyEvent
 from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF, QPointF
@@ -11,6 +11,8 @@ from constants import *
 from elements import QGraphicsPixmapItem, Element, WireLine
 from wire import Wire
 import math
+
+
 
 class MainForm(QMainWindow):
     def __init__(self):
@@ -32,10 +34,14 @@ class MainForm(QMainWindow):
         self.selected : QGraphicsPixmapItem
         self.selected = None
 
+        self.k = 0.01
         self.wires = []
         self.wire = None
         self.wire : Wire
 
+        # self.zoom_slider : QSlider
+        # self.zoom_slider.valueChanged.connect(self.zoom)
+        # self.zoom_slider.value()
         self.list.itemClicked.connect(self.add_elem_to_center)
 
         # self.scene = QGraphicsScene()
@@ -56,8 +62,22 @@ class MainForm(QMainWindow):
         self.obj_x.valueChanged.connect(self.set_elem_x)
         self.obj_y.valueChanged.connect(self.set_elem_y)
 
+        self.export_btn.clicked.connect(self.export)
 
-        # self.export_btn.clicked.connect(self.export)
+    def export(self):
+
+        dialog = QFileDialog()
+        dialog.setNameFilter("*.png")
+        dialog.setDefaultSuffix(".png")
+        pixmap = QPixmap(int(self.scene.width()), int(self.scene.height()))
+        pixmap.fill(QColor("white"))
+
+        pixPainter = QPainter(pixmap)
+        self.scene.render(pixPainter, self.scene.sceneRect(),self.scene.sceneRect())
+        clickedOk = dialog.exec()
+        pixPainter.end()
+        if clickedOk:
+            pixmap.save(dialog.selectedFiles()[0])
 
 
     def set_elem_x(self):
@@ -76,7 +96,7 @@ class MainForm(QMainWindow):
         print('FDFDFDFDF')
         self.wire_painting = False
         for item in self.view.items():
-            if item in self.wire.lines:
+            if self.wire and item in self.wire.lines:
                 self.scene.removeItem(item)                
         
         if self.wire in self.wires:
@@ -84,49 +104,90 @@ class MainForm(QMainWindow):
         self.wire = None
         self.count_wire_len()
 
+
     def sizerect(self):
         inpwight = self.field_size_x_m.value()
         inpheight = self.field_size_y_m.value()
-        scale = self.scalerect(inpwight, inpheight)
-        w_change = inpwight * scale * 100
-        h_change = inpheight * scale * 100
-
-        self.view.setSceneRect(0, 0, w_change, h_change)
-
-    def scalerect(self, inp_w, inp_h):
-        scale_w = 10 / inp_w
-        scale_h = 10 / inp_h
-        if (scale_w >= 1 and scale_h >= 1):
-            if (scale_w > scale_h):
-                return scale_w
-            else:
-                return scale_h
-        elif (scale_w <= 1 and scale_h <= 1):
-            if (scale_w > scale_h):
-                return scale_h
-            else:
-                return scale_w
-        elif (scale_w <= 1 and scale_h >= 1):
-            return scale_w
-        elif (scale_w >= 1 and scale_h <= 1):
-            return scale_h
+        
+        if inpheight < inpwight:
+            mod_h = self.view.height()
+            k = inpheight / mod_h
+            mod_w = inpwight / k
+        
         else:
-            return scale_w
+            mod_w = self.view.width()
+            k = inpwight / mod_w
+            mod_h = inpheight / k
+        
+
+        if mod_w > self.view.width():
+            mod_h -= 17
+        
+        if mod_h > self.view.height():
+            mod_w -= 17
+
+        self.k = k
+        self.view.setSceneRect(0, 0, mod_w, mod_h)
+        print(self.view.sceneRect())
 
 
 
 
+    # def sizerect(self):
+    #     inpwight = self.field_size_x_m.value()
+    #     inpheight = self.field_size_y_m.value()
+    #     c = max(inpwight,inpheight)
+    #     d = min(inpwight, inpheight)
+    #     #scale = self.scalerect(inpwight, inpheight)
+    #     c_mod = 1000
+    #     k = c/c_mod
+    #     d /=k
+    #     if c == inpwight:
+    #         if d < self.view.height():
+    #             mod_d = self.view.height()
+    #             k_2 = d / (mod_d - SCROLBAR_MARGIN)
+    #             c_mod /= k_2
+    #             k *= k_2
+
+    #         w_change = c_mod
+    #         h_change = d
+    #     else:
+
+    #         if d < self.view.width():
+    #             mod_d = self.view.width()
+    #             k_2 = d / (mod_d - SCROLBAR_MARGIN)
+    #             c_mod /= k_2
+    #             k *= k_2
+    #         w_change = d
+    #         h_change = c_mod
+
+    #     self.k = k
+    #     self.view.setSceneRect(0, 0, w_change, h_change)
+    #     print(self.view.sceneRect())
+
+    # def scalerect(self, inp_w, inp_h):
+    #     scale_w = 10 / inp_w
+    #     scale_h = 10 / inp_h
+    #     if (scale_w >= 1 and scale_h >= 1):
+    #         if (scale_w > scale_h):
+    #             return scale_w
+    #         else:
+    #             return scale_h
+    #     elif (scale_w <= 1 and scale_h <= 1):
+    #         if (scale_w > scale_h):
+    #             return scale_h
+    #         else:
+    #             return scale_w
+    #     elif (scale_w <= 1 and scale_h >= 1):
+    #         return scale_w
+    #     elif (scale_w >= 1 and scale_h <= 1):
+    #         return scale_h
+    #     else:
+    #         return scale_w
 
 
 
-
-
-
-
-
-
-
-        self.count = 0
+        # self.count = 0
 
     # def keyPressEvent(self, event: QKeyEvent | None) -> None:
     #     if int(event.modifiers()) == 67108864:
@@ -151,7 +212,7 @@ class MainForm(QMainWindow):
             self.scene.removeItem(self.selected)
 
     def create_view(self):
-        self.scene = QGraphicsScene(0, 0, 1000, 1000, self.view)
+        self.scene = QGraphicsScene(0, 0, 600, 400, self.view)
         self.scene.mouseDoubleClickEvent = self.SceneMouseDoubleClickEvent
         # self.scene.dragMoveEvent = self.ScenedragMoveEvent
         self.view.setScene(self.scene)
@@ -352,13 +413,13 @@ class MainForm(QMainWindow):
         for wire in self.wires:
             print(wire)
             for line in wire.lines:
-                counter += line.line().length() / 100
+                counter += line.line().length()
 
         if self.wire:
             for line in self.wire.lines:
-                counter += line.line().length() / 100
+                counter += line.line().length()
 
-        self.lenght.setValue(counter)
+        self.lenght.setValue(counter * self.k)
     # def wire_coords(self, x, y, x1, y1):
     #     if x == x1:
     #         return (x, y)

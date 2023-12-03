@@ -178,24 +178,22 @@ QDoubleSpinBox{}</string>
    <widget class="QLabel" name="size">
     <property name="geometry">
      <rect>
-      <x>652</x>
+      <x>692</x>
       <y>14</y>
-      <width>351</width>
+      <width>261</width>
       <height>36</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>19</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QLabel{
 background-color:  none;
 color: white;
+font-size: 25px;
 }</string>
     </property>
     <property name="text">
@@ -216,16 +214,15 @@ color: white;
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>18</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">#field_size_x_m{
 border-radius: 5px;
 background-color: rgb(255, 255, 255);
+font-size: 25px;
+
 }</string>
     </property>
     <property name="alignment">
@@ -241,7 +238,7 @@ background-color: rgb(255, 255, 255);
      <double>1.000000000000000</double>
     </property>
     <property name="value">
-     <double>6.000000000000000</double>
+     <double>5.000000000000000</double>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="field_size_y_m">
@@ -255,16 +252,15 @@ background-color: rgb(255, 255, 255);
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>18</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">#field_size_y_m{
 border-radius: 5px;
 background-color: rgb(255, 255, 255);
+font-size: 25px;
+
 }</string>
     </property>
     <property name="alignment">
@@ -280,7 +276,7 @@ background-color: rgb(255, 255, 255);
      <double>1.000000000000000</double>
     </property>
     <property name="value">
-     <double>4.000000000000000</double>
+     <double>5.000000000000000</double>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -305,24 +301,23 @@ color: white;
    <widget class="QLabel" name="object_name">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>764</x>
       <y>135</y>
-      <width>271</width>
+      <width>117</width>
       <height>36</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>19</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">#object_name{
 background-color:  none;
 color: white;
+font-size: 25px;
+
 }</string>
     </property>
     <property name="text">
@@ -365,15 +360,14 @@ color: white;
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>18</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">border-radius: 5px;
-background-color: rgb(255, 255, 255);</string>
+background-color: rgb(255, 255, 255);
+font-size: 25px;
+</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -399,15 +393,14 @@ background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>18</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">border-radius: 5px;
-background-color: rgb(255, 255, 255);</string>
+background-color: rgb(255, 255, 255);
+font-size: 25px;
+</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -427,16 +420,13 @@ background-color: rgb(255, 255, 255);</string>
      <rect>
       <x>715</x>
       <y>239</y>
-      <width>181</width>
+      <width>161</width>
       <height>42</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>18</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="autoFillBackground">
@@ -446,6 +436,7 @@ background-color: rgb(255, 255, 255);</string>
      <string notr="true">QPushButton{
 background-color: rgb(255, 255, 255);
 border-radius: 5px;
+font-size: 25px;
 }
 
 QPushButton:hover{
@@ -488,24 +479,23 @@ color: white;
    <widget class="QLabel" name="elements">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>750</x>
       <y>367</y>
-      <width>221</width>
+      <width>151</width>
       <height>36</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>19</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QLabel{
 background-color:  none;
 color: white;
+font-size: 25px;
+
 }</string>
     </property>
     <property name="text">
@@ -576,7 +566,7 @@ outline: 0px;
 
 }
 QScrollBar:vertical {
-
+	
 	background-color: rgba(255, 255, 255, 0);
 	border: none;
     width:8 px;
@@ -591,10 +581,10 @@ QScrollBar::handle:horizontal {
 	min-height: 30px;
 	border-radius: 7px;
 }
-QScrollBar::handle:horizontal:hover{
+QScrollBar::handle:horizontal:hover{	
 	background-color: rgb(198, 198, 198);
 }
-QScrollBar::handle:horizontal:pressed {
+QScrollBar::handle:horizontal:pressed {	
 	background-color: rgb(138, 138, 138);
 }
 
@@ -607,10 +597,10 @@ QScrollBar::sub-line:horizontal {
 	subcontrol-position: top;
 	subcontrol-origin: margin;
 }
-QScrollBar::sub-line:horizontal:hover {
+QScrollBar::sub-line:horizontal:hover {	
 	background-color: rgb(198, 198, 198);
 }
-QScrollBar::sub-line:horizontal:pressed {
+QScrollBar::sub-line:horizontal:pressed {	
 	background-color: rgb(138, 138, 138);
 }
 
@@ -624,10 +614,10 @@ QScrollBar::add-line:horizontal {
 	subcontrol-position: bottom;
 	subcontrol-origin: margin;
 }
-QScrollBar::add-line:horizontal:hover {
+QScrollBar::add-line:horizontal:hover {	
 	background-color: rgb(198, 198, 198);
 }
-QScrollBar::add-line:horizontal:pressed {
+QScrollBar::add-line:horizontal:pressed {	
 	background-color: rgb(138, 138, 138);
 }
 
@@ -770,24 +760,23 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
    <widget class="QDoubleSpinBox" name="obj_height">
     <property name="geometry">
      <rect>
-      <x>705</x>
+      <x>715</x>
       <y>294</y>
-      <width>251</width>
+      <width>221</width>
       <height>35</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>18</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">#obj_height{
 border-radius: 5px;
 background-color: rgb(255, 255, 255);
+font-size: 25px;
+
 }</string>
     </property>
     <property name="alignment">
@@ -831,31 +820,27 @@ color: white;
    <widget class="QLabel" name="scale">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>490</y>
-      <width>181</width>
+      <x>760</x>
+      <y>495</y>
+      <width>131</width>
       <height>36</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>19</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QLabel{
 background-color:  none;
 color: white;
+font-size: 25px;
+
 }</string>
     </property>
     <property name="text">
      <string>Масштаб</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QSpinBox" name="scale_first">
@@ -964,16 +949,14 @@ color: white;
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>18</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>-1</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">#lenght{
 border-radius: 5px;
 background-color: rgb(255, 255, 255);
+font-size: 25px;
 }</string>
     </property>
     <property name="alignment">
@@ -1000,8 +983,8 @@ background-color: rgb(255, 255, 255);
      <rect>
       <x>40</x>
       <y>130</y>
-      <width>600</width>
-      <height>400</height>
+      <width>601</width>
+      <height>391</height>
      </rect>
     </property>
     <property name="mouseTracking">
@@ -1016,20 +999,17 @@ background-color: rgb(255, 255, 255);
 </string>
     </property>
     <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAsNeeded</enum>
+     <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
     <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAsNeeded</enum>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::AdjustToContents</enum>
+     <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
     <property name="sceneRect">
      <rectf>
       <x>0.000000000000000</x>
       <y>0.000000000000000</y>
-      <width>600.000000000000000</width>
-      <height>400.000000000000000</height>
+      <width>1000.000000000000000</width>
+      <height>1000.000000000000000</height>
      </rectf>
     </property>
    </widget>
