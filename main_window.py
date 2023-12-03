@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent, QWheelEvent, QKeyEvent
 from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF, QPointF
 from PyQt5 import QtGui, uic
+from PyQt5 import QtCore
 from py_ui.list_widget import Ui_MainWindow
 from constants import *
 from elements import QGraphicsPixmapItem, Element, WireLine
@@ -63,6 +64,22 @@ class MainForm(QMainWindow):
         self.obj_y.valueChanged.connect(self.set_elem_y)
 
         self.export_btn.clicked.connect(self.export)
+
+
+        self.view.viewport().installEventFilter(self)
+
+
+    def eventFilter(self, source, event):
+        if (source == self.view.viewport() and 
+            event.type() == QtCore.QEvent.Wheel and
+            event.modifiers() == QtCore.Qt.ControlModifier):
+                if event.angleDelta().y() > 0:
+                    scale = 1.25
+                else:
+                    scale = .8
+                self.view.scale(scale, scale)
+
+        return super().eventFilter(source,event)
 
     def export(self):
 
@@ -131,6 +148,8 @@ class MainForm(QMainWindow):
         print(self.view.sceneRect())
 
 
+    def create_file(self):
+        pass
 
 
     # def sizerect(self):
