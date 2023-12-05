@@ -62,22 +62,35 @@ class MainForm(QMainWindow):
 
         self.obj_x.valueChanged.connect(self.set_elem_x)
         self.obj_y.valueChanged.connect(self.set_elem_y)
+        self.obj_height.valueChanged.connect(self.set_elem_height)
 
         self.export_btn.clicked.connect(self.export)
 
-
         self.view.viewport().installEventFilter(self)
+
+        self.scale_count = 1.0
 
 
     def eventFilter(self, source, event):
         if (source == self.view.viewport() and 
             event.type() == QtCore.QEvent.Wheel and
             event.modifiers() == QtCore.Qt.ControlModifier):
+                scale = 1
                 if event.angleDelta().y() > 0:
                     scale = 1.25
-                else:
-                    scale = .8
+                    self.scale_count *= 1.25
+
+                elif float(f"{self.scale_count:.5}") != 1.0:
+                    scale = 0.8
+                    self.scale_count *= 0.8
+
+                self.view.setTransformationAnchor(2)
                 self.view.scale(scale, scale)
+
+                print(f"{self.scale_count:.3}")
+                print(float(f"{self.scale_count:.5}") == 1.0)
+
+                
 
         return super().eventFilter(source,event)
 
@@ -86,6 +99,7 @@ class MainForm(QMainWindow):
         dialog = QFileDialog()
         dialog.setNameFilter("*.png")
         dialog.setDefaultSuffix(".png")
+        
         pixmap = QPixmap(int(self.scene.width()), int(self.scene.height()))
         pixmap.fill(QColor("white"))
 
@@ -107,6 +121,11 @@ class MainForm(QMainWindow):
         if self.selected and not self.ch_parsed:
             print("получилось")
             self.selected.setY(self.obj_y.value())
+
+    def set_elem_height(self):
+        if self.selected:
+            self.selected.height = self.obj_height.value()
+            self.count_wire_len()
 
 
     def clear_wires(self):
@@ -145,6 +164,8 @@ class MainForm(QMainWindow):
 
         self.k = k
         self.view.setSceneRect(0, 0, mod_w, mod_h)
+        print(k)
+        self.scale_second.setValue(1 / k)
         print(self.view.sceneRect())
 
 
@@ -229,6 +250,8 @@ class MainForm(QMainWindow):
     def delete(self):
         if self.selected:
             self.scene.removeItem(self.selected)
+            self.count_wire_len()
+
 
     def create_view(self):
         self.scene = QGraphicsScene(0, 0, 600, 400, self.view)
@@ -424,6 +447,7 @@ class MainForm(QMainWindow):
             pic.setPos(self.scene.width() // 2, self.scene.height() // 2)
             pic.setFlags(QGraphicsItem.ItemIsMovable)
             self.scene.addItem(pic)
+            self.count_wire_len()
 
 
     def count_wire_len(self):
@@ -438,7 +462,17 @@ class MainForm(QMainWindow):
             for line in self.wire.lines:
                 counter += line.line().length()
 
-        self.lenght.setValue(counter * self.k)
+
+        counter *= self.k
+        
+
+        for item in self.view.items():
+            if item.type() == 7:
+                print(item.height)
+                counter += item.height
+
+        print(self.k)
+        self.lenght.setValue(counter)
     # def wire_coords(self, x, y, x1, y1):
     #     if x == x1:
     #         return (x, y)

@@ -864,7 +864,7 @@ color: white;
     </property>
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>730</x>
       <y>538</y>
       <width>65</width>
       <height>42</height>
@@ -891,42 +891,17 @@ background-color: rgb(255, 255, 255);</string>
     <property name="buttonSymbols">
      <enum>QAbstractSpinBox::NoButtons</enum>
     </property>
-   </widget>
-   <widget class="QSpinBox" name="scale_first_2">
-    <property name="geometry">
-     <rect>
-      <x>831</x>
-      <y>538</y>
-      <width>65</width>
-      <height>42</height>
-     </rect>
+    <property name="suffix">
+     <string>м</string>
     </property>
-    <property name="font">
-     <font>
-      <family>Arial Black</family>
-      <pointsize>18</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius: 5px;
-background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-    <property name="buttonSymbols">
-     <enum>QAbstractSpinBox::NoButtons</enum>
+    <property name="value">
+     <number>1</number>
     </property>
    </widget>
    <widget class="QLabel" name="double_points">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>800</x>
       <y>549</y>
       <width>16</width>
       <height>31</height>
@@ -1109,6 +1084,49 @@ border-radius: 5px;
      </size>
     </property>
    </widget>
+   <widget class="QDoubleSpinBox" name="scale_second">
+    <property name="geometry">
+     <rect>
+      <x>812</x>
+      <y>538</y>
+      <width>131</width>
+      <height>42</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Black</family>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 5px;
+background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="buttonSymbols">
+     <enum>QAbstractSpinBox::NoButtons</enum>
+    </property>
+    <property name="suffix">
+     <string>px</string>
+    </property>
+    <property name="minimum">
+     <double>1.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>100.000000000000000</double>
+    </property>
+   </widget>
    <zorder>background</zorder>
    <zorder>background_parametrs</zorder>
    <zorder>size</zorder>
@@ -1127,12 +1145,12 @@ border-radius: 5px;
    <zorder>line_3</zorder>
    <zorder>scale</zorder>
    <zorder>scale_first</zorder>
-   <zorder>scale_first_2</zorder>
    <zorder>double_points</zorder>
    <zorder>view</zorder>
    <zorder>len_exp_back</zorder>
    <zorder>lenght</zorder>
    <zorder>export_btn</zorder>
+   <zorder>scale_second</zorder>
   </widget>
  </widget>
  <resources/>
