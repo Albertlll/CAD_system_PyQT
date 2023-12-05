@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
     QListWidgetItem, QGraphicsItem, QLineEdit, QGraphicsLineItem, QGraphicsSceneMouseEvent, QGraphicsSceneWheelEvent, QGraphicsDropShadowEffect, QDoubleSpinBox, QSlider
 )
 from PyQt5.QtGui import QPainter, QPen, QPixmap, QIcon, QImage, QColor, QDropEvent, QMouseEvent, QWheelEvent, QKeyEvent
-from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF, QPointF
+from PyQt5.QtCore import Qt, QPoint, QEvent, QLine, QLineF, QRectF, QPointF, QSize
 from PyQt5 import QtGui, uic
 from PyQt5 import QtCore
 from py_ui.list_widget import Ui_MainWindow
@@ -19,7 +19,7 @@ class MainForm(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('ui/alan_wires.ui', self)
-
+        self.setFixedSize(QSize(960, 600))
         self.field_size_x_m: QDoubleSpinBox
         self.field_size_y_m: QDoubleSpinBox
 
@@ -99,7 +99,7 @@ class MainForm(QMainWindow):
         dialog = QFileDialog()
         dialog.setNameFilter("*.png")
         dialog.setDefaultSuffix(".png")
-        
+
         pixmap = QPixmap(int(self.scene.width()), int(self.scene.height()))
         pixmap.fill(QColor("white"))
 
